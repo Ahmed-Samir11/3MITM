@@ -1,0 +1,6 @@
+Flask==3.0.0
+requests==2.31.0
+mitmproxy==10.4.2
+jira==3.8.0
+slack-sdk==3.23.0
+python-dotenv==1.0.0

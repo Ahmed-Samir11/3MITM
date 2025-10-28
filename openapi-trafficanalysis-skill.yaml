@@ -1,0 +1,95 @@
+openapi: 3.0.0
+info:
+  title: Traffic Analysis Ingestion API
+  description: API skill for ingesting intercepted HTTP traffic and triggering AI-based vulnerability analysis
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000
+    description: Local development server
+paths:
+  /api/traffic:
+    post:
+      summary: Ingest intercepted HTTP traffic
+      description: Receives HTTP request/response data from mitmproxy and triggers asynchronous vulnerability analysis workflow
+      operationId: ingestTraffic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                method:
+                  type: string
+                  description: HTTP method (GET, POST, etc.)
+                  example: POST
+                url:
+                  type: string
+                  description: Request URL
+                  example: https://api.example.com/login
+                headers:
+                  type: object
+                  description: HTTP request headers
+                  additionalProperties:
+                    type: string
+                  example:
+                    Content-Type: application/json
+                    Authorization: Bearer token123
+                body:
+                  type: string
+                  description: Request body
+                  example: '{"username":"admin","password":"password123"}'
+                response_status:
+                  type: integer
+                  description: HTTP response status code
+                  example: 200
+                response_headers:
+                  type: object
+                  description: HTTP response headers
+                  additionalProperties:
+                    type: string
+                  example:
+                    Content-Type: application/json
+                response_body:
+                  type: string
+                  description: Response body
+                  example: '{"token":"abc123","user_id":1}'
+              required:
+                - method
+                - url
+                - headers
+                - body
+      responses:
+        '202':
+          description: Traffic data accepted for processing
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: accepted
+                  message:
+                    type: string
+                    example: Traffic data received and queued for analysis
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid JSON payload
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal processing error
