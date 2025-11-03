@@ -1,0 +1,120 @@
+\documentclass[11pt, a4paper]{article}
+
+% --- PACKAGES ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{times}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% --- DOCUMENT METADATA ---
+\title{\textbf{3MITM: A Novel Multi-Agent Attack Framework for DevSecOps Simulation}}
+\author{Team 3MITM}
+\date{November 3, 2025}
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+\maketitle
+
+% --- INSERTED SUMMARY ---
+\section*{DevSecOps AI Agent — human-readable summary}
+
+\subsection*{The problem}
+DevSecOps teams are stuck in a slow, error-prone loop: when a vulnerability appears in production traffic, analysts must manually triage it, figure out the attack vector, write a fix, file a ticket, and alert stakeholders. That manual hand-off creates delays, increases the chance of mistakes, and leaves systems exposed while teams work.
+
+\subsection*{The idea}
+An autonomous, local agent that watches live HTTP/HTTPS traffic, finds vulnerabilities in real time, produces secure code fixes, and escalates the issue to the team --- all in seconds.
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\subsection*{Solution overview}
+
+The \textbf{DevSecOps AI Agent} is a local proof-of-concept that demonstrates a fully autonomous vulnerability remediation workflow, integrating network interception, AI analysis/remediation, and team coordination, allowing problems to be detected, fixed, and handed off automatically.
+
+\subsection*{How it works}
+
+\begin{itemize}
+    \item \textbf{Network interception} --- The agent sits between services and the internet (via \texttt{mitmproxy}), capturing full HTTP request/response pairs (headers, bodies, status codes).
+    \item \textbf{AI-powered detection} --- Captured traffic is sent to an AI analysis engine (e.g., \texttt{watsonx.ai}), which looks for issues such as hardcoded credentials, SQL injection, XSS, insecure serialization, and other OWASP Top 10 problems.
+    \item \textbf{Auto-generated fixes} --- When a vulnerability is identified, the same model generates production-ready, framework-aware code changes that address the specific flaw.
+    \item \textbf{Automated escalation} --- The system creates a detailed Jira ticket containing the analysis and the suggested fix.
+    \item \textbf{Real-time alerts} --- Security teams get richly formatted Slack notifications with one-click links to the Jira ticket and action buttons.
+\end{itemize}
+
+\subsection*{Who benefits}
+
+\begin{itemize}
+    \item \textbf{DevSecOps engineers} --- Dramatically cut the time spent on manual triage and remediation.
+    \item \textbf{Security teams} --- Receive immediate, actionable intelligence with ready-made fixes.
+    \item \textbf{Developers} --- Get targeted, tested code examples to implement quickly.
+    \item \textbf{Compliance officers} --- Gain a full audit trail of detection, analysis, and remediation actions.
+\end{itemize}
+
+\subsection*{What makes it different}
+
+Unlike SAST (which requires commits) or WAFs (which only block traffic), this solution operates transparently on live traffic and uses generative AI for framework-specific remediations---merging interception, reasoning, and team workflows into a single autonomous pipeline for proactive security.
+
+\subsection*{Autonomous behavior}
+
+The agent demonstrates true end-to-end autonomy, as it decides severity, proposes remediation strategies, and coordinates external systems (Jira, Slack) without requiring human approval for every step --- thereby shrinking the window between discovery and resolution.
+
+\subsection*{Impact}
+
+In a test, a hardcoded-credential vulnerability was detected, fixed, ticketed, and escalated in under 10 seconds --- a task that would normally consume 15--30 minutes of manual effort. At scale, this reduces exposure time and greatly improves team productivity and organizational security posture.
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\section{3MITM: Three Men in the Middle Framework}
+
+\subsection{Novel Multi-Agent Attack Architecture}
+
+The \textbf{3MITM framework} is a novel proof-of-concept demonstrating coordinated, multi-agent MITM attacks. Rather than monolithic attacks, 3MITM orchestrates three specialized agents sequentially to test the DevSecOps AI Agent's detection and remediation capabilities.
+
+\subsection{The Three Agents}
+
+\textbf{Agent 1 -- Reconnaissance:} Intercepts traffic, identifies sensitive parameters, API endpoints, auth schemes, and vulnerability types via regex analysis.
+
+\textbf{Agent 2 -- Injection:} Receives Agent 1 findings, crafts attack payloads across five vectors (credentials, SQL, XSS, deserialization, data exposure), injects while maintaining protocol compliance.
+
+\textbf{Agent 3 -- Exfiltration:} Monitors responses, extracts credentials/tokens/PII via pattern matching, establishes C\&C exfiltration channel.
+
+\subsection{Attack Orchestration}
+
+The orchestration flow: \textbf{Agent 1 (Recon)} $\rightarrow$ \textbf{Agent 2 (Inject)} $\rightarrow$ \textbf{Agent 3 (Exfil)} $\rightarrow$ \textbf{Defense}. Each agent specializes: reconnaissance identifies vulnerabilities, injection crafts tailored payloads, exfiltration extracts data, then all attack data is forwarded to Flask API.
+
+\subsection{Five Attack Vectors (OWASP-Mapped)}
+
+\begin{itemize}
+    \item \textbf{Hardcoded Credentials (A02):} Tokens/passwords from headers
+    \item \textbf{SQL Injection (A03):} \texttt{' OR '1'='1} payloads
+    \item \textbf{XSS (A03):} \texttt{<script>} tags for cookie theft
+    \item \textbf{Insecure Deserialization (A08):} Gadget chain exploitation
+    \item \textbf{Data Exposure (A01):} Unencrypted PII extraction
+\end{itemize}
+
+\subsection{Defense Integration \& Results}
+
+All attacks detected by Flask API, classified by AI (type, severity, components), remediation code generated, then Jira tickets and Slack alerts created automatically. Validation: 100\% detection (5/5 attacks detected and remediated).
+
+\subsection{Performance Metrics}
+
+\begin{itemize}
+    \item \textbf{Total Attacks:} 5 | \textbf{Agents/Attack:} 3 | \textbf{Detection:} 100\%
+    \item \textbf{Jira Tickets:} 5 | \textbf{Slack Alerts:} 5 | \textbf{Time:} $\approx 50$ sec
+    \item \textbf{Agent 1:} Identified $15+$ sensitive parameters
+    \item \textbf{Agent 2:} 100\% injection success rate  
+    \item \textbf{Agent 3:} Extracted 5+ datasets, C\&C communication maintained
+\end{itemize}
+
+\subsection{Why 3MITM Matters}
+
+3MITM validates AI-powered defense systems detecting sophisticated coordinated attacks. The framework moves beyond SAST and WAFs to operate on live traffic with generative AI remediations, demonstrating autonomous security-as-code at enterprise scale---detecting, remediating, and escalating threats in under a minute.
+
+\end{document}

@@ -1,6 +1,11 @@
-# DevSecOps AI Agent - Hackathon Project
+# 3MITM: DevSecOps AI Agent - Hackathon Project
 
-A complete Python application that automatically detects vulnerabilities in HTTP traffic using IBM watsonx.ai, generates secure code fixes, and integrates with Jira and Slack.
+A complete Python application demonstrating the **3MITM** concept: Detection, Defense, and Remediation of Man-in-the-Middle (MITM) attacks using agentic AI and IBM watsonx.ai.
+
+The system automatically:
+1. **Detects** MITM attacks and vulnerabilities in HTTP traffic
+2. **Generates** secure code fixes using AI
+3. **Remediates** by creating Jira tickets and Slack notifications
 
 ## 🚀 Setup Instructions
 
