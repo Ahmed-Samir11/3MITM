@@ -7,26 +7,55 @@ The system automatically:
 2. **Generates** secure code fixes using AI
 3. **Remediates** by creating Jira tickets and Slack notifications
 
-## 🚀 Setup Instructions
+## 🚀 Quick Start
 
-### 1. Activate Virtual Environment
-```powershell
+### 1. Setup (see [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md) for detailed steps)
+
+```bash
+# Clone repository
+git clone https://github.com/Ahmed-Samir11/3MITM.git
+cd 3MITM
+
+# Create virtual environment
+python -m venv ibm
 .\ibm\Scripts\Activate.ps1
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment variables
+cp .env.example .env
+# Edit .env with your API credentials
 ```
 
-### 2. Configure Credentials
-Edit `config.py` and replace the placeholder values with your actual credentials:
+### 2. Run the Application
 
-- **IBM watsonx.ai**: `IBM_API_KEY`, `IBM_PROJECT_ID`
-- **Jira**: `JIRA_SERVER`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, `JIRA_PROJECT_KEY`
-- **Slack**: `SLACK_WEBHOOK_URL`
-
-### 3. Run the Application
-
-#### Start the Flask Ingestion API
+#### Terminal 1: Start the Defense System
 ```powershell
 python ingestion_api.py
 ```
+
+#### Terminal 2: Run Attack Simulation
+```powershell
+python advanced_3mitm_test.py
+```
+
+## 🔐 Security
+
+**All API credentials are stored in `.env` file (git-ignored)**
+
+- Copy `.env.example` to `.env` 
+- Add your credentials to `.env`
+- Never commit `.env` to git
+- See [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md) for credential instructions
+
+### Required Credentials
+
+- IBM watsonx.ai API Key & Project ID
+- Jira Cloud Email & API Token
+- Slack Incoming Webhook URL
+
+## 📋 Configuration
 
 The API will start on `http://127.0.0.1:5000`
 

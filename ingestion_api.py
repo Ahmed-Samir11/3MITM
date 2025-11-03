@@ -13,6 +13,13 @@ import slack_integration
 
 app = Flask(__name__)
 
+# Validate configuration on startup
+try:
+    config.validate_config()
+except ValueError as e:
+    print(f"Configuration Error: {e}")
+    exit(1)
+
 
 @app.route('/api/traffic', methods=['POST'])
 def ingest_traffic():
