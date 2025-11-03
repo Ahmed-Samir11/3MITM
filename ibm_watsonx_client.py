@@ -55,7 +55,8 @@ def call_watsonx_ai(prompt, model_id, project_id, access_token):
         "parameters": {
             "decoding_method": "greedy",
             "max_new_tokens": 900,
-            "repetition_penalty": 1.05
+            "repetition_penalty": 1.05,
+            "min_tokens": 10
         },
         "model_id": model_id,
         "project_id": project_id
@@ -75,7 +76,17 @@ def call_watsonx_ai(prompt, model_id, project_id, access_token):
     response.raise_for_status()
     
     data = response.json()
-    return data["results"][0]["generated_text"]
+    generated_text = data["results"][0]["generated_text"]
+    
+    # Clean up the response - extract only the first JSON object
+    # Remove any text before the first { and after the last }
+    json_start = generated_text.find('{')
+    json_end = generated_text.rfind('}') + 1
+    
+    if json_start != -1 and json_end > json_start:
+        generated_text = generated_text[json_start:json_end]
+    
+    return generated_text
 
 
 # Prompt for vulnerability detection (Part 2.2)
